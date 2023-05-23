@@ -2,14 +2,15 @@
 <html>
   <head>
     <title>BEMISY</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
 	  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Playfair+Display&display=swap');
-      h1, h2, h3, h4, h5, h6, p, a, button, textarea, input {
+      h1, h2, h3, h4, h5, h6, p, a, button, textarea, input, div {
       	font-family: 'Oswald', sans-serif;
       }
       ::selection {
-        background: yellow;
-        color: #ffc000;
+        background: lightblue;
+        color: tomato;
       }
       body {
         background: #f5f5f5;
@@ -73,12 +74,11 @@
       #shadow {
         position: fixed;
         top: 0px;
-        width: 0px;
+        left: 0px;
         height: 100%;
         width: 100%;
         background: rgb(0, 0, 0, 0.3);
         z-index: 10;
-        visibility: visible;
       }
       #message {
         position: fixed;
@@ -97,7 +97,7 @@
         height: 190px;
         overflow: auto;
         color: tomato;
-        border: 2px solid black;
+        line-height: 2;
       }
       #accept-message {
         margin-top: 20px;
@@ -108,32 +108,155 @@
         font-size: 20px;
         border-radius: 3px;
         border: none;
+        transition: background 0.4s;
+        padding-left: 20px;
+        padding-right: 20px;
       }
       #accept-message:hover {
         background: #BF4A35;
         cursor: pointer;
       }
-        
+      b {
+        background: lightblue;
+      }  
     </style>
   </head>
   <body>
     <div id="top">
-      <a href="#" title="Bemisy Tables">
+      <a href="https://bemisy.github.io" title="Bemisy Tables">
         <button class="sans" id="logo">Bemisy Tables</button>
       </a>
         <button class="option">Shop</button>
-        <button class="option">Shipping</button>
-        <button class="option link">ORDER NOW: 20% off all purchases before June 1</button>
+        <button class="option" onclick="notify(shippingInfo)">Shipping</button>
+        <button class="option link">ORDER NOW: 20% off all purchases before <span id="promotional-date">June</span> 1</button>
     </div>
     <div id="content">
-      <h1 id="slogan"><br>Since 1969, Bemisy has been producing laboratory-grade science tables intended for educational and professional environments alike. <br><br> The unmatched quality and craftsmanship of Bemisy Tables sets the standard high for reliable, yet economic, science equipment.</h2>
+      <h1 id="slogan"><br>Since 1969, Bemisy has been producing laboratory-grade science tables intended for educational and professional environments alike. <br><br> The unmatched quality and craftsmanship of Bemisy Tables sets the standard high for reliable, yet economic, science equipment.</h1>
     </div>
     
     <!-- shadow -->
-    <div id="shadow" onclick="hide(message); hide(shadow);"></div>
+    <div id="shadow" onclick="hide(message); hide(shadow); agreement();"></div>
     <!-- message -->
     <div id="message">
-      <div id="text-box">Something seems to have gone wrong. Try reloading the Bemisy Tables website.</div>
-      <button id="accept-message" title="Close message" onclick="hide(message); hide(shadow);">OK</button>
+      <div id="text-box">ERROR: Something seems to have gone wrong.<br> -Try reloading the website and confirming that javascript is enabled in your browser.<br> -Customer support: contact bemisytables@gmail.com for help regarding the Bemisy Tables website, purchases, shipping, and FAQs.</div>
+      <button id="accept-message" title="Close message" onclick="hide(message); hide(shadow); agreement()">OK</button>
+      </div>
+      
+      <script>
+      	var message = document.getElementById("message");
+        var textBox = document.getElementById("text-box");
+        var shadow = document.getElementById("shadow");
+        var promotionalDate = document.getElementById("promotional-date");
+        var months = ["January","February","March","April","May","June","July","August","September","October","November","December","January"]
+        let d = new Date();
+        var promotionalMonth = d.getMonth() + 1;
+        
+        promotionalDate.innerHTML = months[promotionalMonth];
+        
+        function hide(elmnt) {
+        	elmnt.style.visibility = "hidden";
+        }
+        function show(elmnt) {
+        	elmnt.style.visibility = "visible";
+        }
+        function notify(text) {
+        	textBox.innerHTML = text;
+          show(shadow);
+          show(message);
+        }
+        function agreement() {
+        	localstorage.setItem("bemisy_tables_user_agreement","user has agreed");
+        }
+
+//other stuff
+        var shippingInfo = `
+        BEMISY TABLES SHIPPING POLICY AND TERMS OF SERVICE AGREEMENT <br>
+        <i style="font-size:9px; line-height:1;">*By clicking "OK" below, you are fully agreeing to have read and accepted the terms of Bemisy Tables.</i><br>
+        This Shipping Policy and Terms of Service Agreement (the "Agreement") is entered into by and between Bemisy Tables (referred to as "Company" or "we") and the user or entity accessing or using the services provided by Bemisy Tables (referred to as "Customer" or "you"). By accessing or using our services, you acknowledge and agree to be bound by the terms and conditions set forth in this Agreement.
+		<br><br>
+<b>Shipping Policy Overview:</b>
+a. Bemisy Tables provides shipping services for its products, subject to the terms and conditions set forth herein.
+b. Our shipping policy guarantees free shipping exclusively to educational institutions that meet the eligibility criteria specified below.
+c. To avail of free shipping, educational institutions must provide proof that they are a public educational institution, a public college or university, or a trade school.
+		<br><br>
+<b>Eligibility and Proof of Institution Status:</b>
+a. Only public educational institutions, public colleges or universities, and trade schools are eligible for free shipping under this policy.
+b. Customers must provide valid and verifiable proof of their institution's status as a public educational institution, public college or university, or trade school.
+c. Acceptable proof may include official documentation such as a valid institutional ID, letter of authorization from a governing body, or any other document deemed appropriate by Bemisy Tables.
+d. Bemisy Tables reserves the right to request additional documentation or clarification to verify the institution's eligibility for free shipping.
+		<br><br>
+<b>Shipping Methods and Limitations:</b>
+a. Bemisy Tables will select the appropriate shipping method for each order, based on factors including but not limited to the size, weight, and destination of the products.
+b. Shipping estimates provided by Bemisy Tables are approximate and are subject to change.
+c. Bemisy Tables is not responsible for any delays in shipping that are beyond our reasonable control, such as carrier delays, natural disasters, or unforeseen circumstances.
+		<br><br>
+<b>Shipping Costs and Fees:</b>
+a. Bemisy Tables offers free shipping to eligible educational institutions as described in Section 2.
+b. Customers who do not meet the eligibility criteria specified in Section 2 will be responsible for all shipping costs associated with their orders.
+c. Additional fees, such as customs duties or taxes, may apply for international shipments and will be the responsibility of the Customer.
+		<br><br>
+<b>Product Delivery and Risk of Loss:</b>
+a. Bemisy Tables will make reasonable efforts to ensure timely delivery of products.
+b. The risk of loss or damage to products passes to the Customer upon delivery to the carrier.
+c. Bemisy Tables is not liable for any loss or damage to products that occurs during transit or delivery.
+		<br><br>
+<b>Returns and Exchanges:</b>
+a. Returns and exchanges of products are subject to Bemisy Tables' standard return policy, as stated separately on our website.
+b. Shipping costs for returns or exchanges are the responsibility of the Customer, unless the return or exchange is due to an error on the part of Bemisy Tables.
+		<br><br>
+<b>Modification of Terms:</b>
+a. Bemisy Tables reserves the right to modify or amend this Shipping Policy and Terms of Service Agreement at any time, without prior notice.
+b. Any changes to this Agreement will be effective immediately upon posting on the Bemisy Tables website.
+c. It is your responsibility to review this Agreement periodically to stay informed of any updates or changes.
+		<br><br>
+<b>Governing Law and Jurisdiction:</b>
+a. This Agreement shall be governed by and construed in accordance with the laws of the jurisdiction where Bemisy Tables is located.
+b. Any disputes arising out of or relating to this Agreement shall be subject to the exclusive jurisdiction of the courts in the aforementioned jurisdiction.
+		<br><br>
+By accessing or using the services provided by Bemisy Tables, you acknowledge that you have read, understood, and agree to be bound by the terms and conditions set forth in this Shipping Policy and Terms of Service Agreement. If you do not agree with any part of this Agreement, you must not use our services.
+		<br>
+This Agreement constitutes the entire agreement between Bemisy Tables and the Customer concerning the subject matter herein and supersedes all prior or contemporaneous communications and proposals, whether oral or written, between the parties regarding such subject matter.
+`;
+				var liabilityAgreement = `
+TERMS OF SERVICE AGREEMENT AND RELEASE OF LIABILITY
+		<br>
+<i style="font-size:10; line-height:1;">*By continuing to use this website, bemisy.github.io, or reffering to "Bemisy" or "Bemisy Table(s)" in any way, you are fully agreeing to having read and accepted these terms of service and release of liability. (Scroll down to read)</i>
+    <br><br>
+This Terms of Service Agreement and Release of Liability (the "Agreement") is entered into by and between the hypothetical entity referred to as "Bemisy Tables" (referred to as "Company" or "we") and the user accessing or using the website "bemisy.github.io" or referring to "Bemisy Tables" (referred to as "Customer" or "you"). By accessing or using the website, or referring to "Bemisy Tables" in any way, you acknowledge and agree to be bound by the terms and conditions set forth in this Agreement.
+		<br><br>
+<b>1. Experimental Nature:</b>
+a. The website "bemisy.github.io" and the concept of "Bemisy Tables" are part of a hypothetical school social experiment conducted for educational purposes.
+b. "Bemisy Tables" is not affiliated with any real companies, whether or not they bear a similar name.
+c. The experimental nature of "Bemisy Tables" means that it does not provide any services or products.
+		<br><br>
+<b>2. Limited Liability and Release of Claims:</b>
+a. As an experimental concept, "Bemisy Tables" assumes no responsibility or liability for any damages, losses, or harm, including but not limited to minor table damage or scratches, resulting from the existence or reference to "Bemisy Tables" or the use of the website "bemisy.github.io".
+b. Customers agree to release "Bemisy Tables" from any liability, claims, or damages arising from or related to the experimental nature of "Bemisy Tables", the website "bemisy.github.io", or any references made to "Bemisy Tables".
+		<br><br>
+<b>3. No Ownership or Product Liability:</b>
+a. "Bemisy Tables" does not claim ownership over any tables or physical products.
+b. The experimental nature of "Bemisy Tables" means that it does not manufacture, sell, or distribute any tables or products, and therefore cannot be held liable for any table damage or scratches.
+		<br><br>
+<b>4. Acceptance of Risks:</b>
+a. By accessing or using the website "bemisy.github.io" or referring to "Bemisy Tables" in any way, you acknowledge and accept the experimental nature of "Bemisy Tables" and the associated risks.
+b. You understand and agree that any participation or engagement with "Bemisy Tables" is at your own risk.
+		<br><br>
+<b>5. Severability:</b>
+a. If any provision of this Agreement is found to be invalid, illegal, or unenforceable, the remaining provisions shall continue to be valid, binding, and enforceable to the fullest extent permitted by law.
+		<br><br>
+<b>6. Governing Law and Jurisdiction:</b>
+a. This Agreement shall be governed by and construed in accordance with the laws of the jurisdiction where the hypothetical experiment is taking place.
+b. Any disputes arising out of or relating to this Agreement shall be subject to the exclusive jurisdiction of the courts in the aforementioned jurisdiction.
+		<br><br>
+By accessing or using the website "bemisy.github.io" or referring to "Bemisy Tables" in any way, you acknowledge that you have read, understood, and agree to be bound by the terms and conditions set forth in this Terms of Service Agreement and Release of Liability. If you do not agree with any part of this Agreement, you must not access or use the website or refer to "Bemisy Tables".
+`;
+
+//beginning opening of website
+notify(liabilityAgreement);
+        if (localStorage.getItem("bemisy_tables_user_agreement").length > 12) {
+        	hide(shadow);
+        	hide(message);
+        } 
+      </script>
   </body>
 </html>
